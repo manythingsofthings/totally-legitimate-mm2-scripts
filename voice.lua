@@ -83,7 +83,9 @@ char.ChildAdded:Connect(
             if not isThrowing then
                 if main.HeatMove.TextLabel.Text ~= "Ultimate Essence " then
                     receivedsound = GetRandom(Voice.HeatAction)
-		    repeat task.wait() until not doingHact()
+		    if main.HeatMove.TextLabel.Text ~= "Essence of Terror" then						
+		    	repeat task.wait() until not doingHact()
+		    end
                     playSound(receivedsound)
                     print(receivedsound)
                 end
