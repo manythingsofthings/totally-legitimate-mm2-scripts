@@ -43,18 +43,21 @@ local function doingHact()
 end
 
 local function playSound(sound)
-    if char.Head:FindFirstChild("Voice") then
-		char.Head.Voice:Destroy()
+    local soundclone = Instance.new("Sound")
+    soundclone.Parent = character.Head
+    soundclone.Name = sound.Name
+    soundclone.SoundId = sound.Value
+    if not sound.Name:find("taunt") then
+        soundclone.Volume = 0.35
+    elseif sound.Name:find("taunt") then
+        soundclone.Volume = 0.5
     end
-	
-	local soundclone = Instance.new("Sound")
-	soundclone.Parent = char.Head
-	soundclone.Name = "Voice"
-	soundclone.SoundId = sound.Value
-	soundclone.Volume = 0.7
-	soundclone:Play()
-	soundclone.Ended:Wait()
-	soundclone:Destroy()
+    soundclone:Play()
+    soundclone.Ended:Connect(
+        function()
+            game:GetService("Debris"):AddItem(soundclone)
+        end
+    )
 end
 
 local function GetRandom(Instance)
@@ -138,7 +141,7 @@ character.HumanoidRootPart.ChildAdded:Connect(
 )
 
 local EvadeCD = false
-status.FFC.Evading.Changed:Connect(
+status.FFC.CEvading.Changed:Connect(
     function()
         if status.FFC.Evading.Value == true and character:FindFirstChild("BeingHacked") and not EvadeCD then
             EvadeCD = true
@@ -168,7 +171,7 @@ status.Taunting.Changed:Connect(
         end
     end
 )
-local LightAttackCD
+local LightAttackCD = false
 status.CurrentMove.Changed:Connect(
     function()
         if string.match(status.CurrentMove.Value.Name, "Attack") or string.match(status.CurrentMove.Value.Name, "Punch") then
