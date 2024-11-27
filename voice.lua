@@ -43,15 +43,14 @@ local function doingHact()
 end
 
 local function playSound(sound)
+	if char.Head:FindFirstChild("Voice") then
+		char.Head.Voice:Destroy()		
+	end		
     local soundclone = Instance.new("Sound")
     soundclone.Parent = character.Head
-    soundclone.Name = sound.Name
+    soundclone.Name = "Voice"
     soundclone.SoundId = sound.Value
-    if not sound.Name:find("taunt") then
-        soundclone.Volume = 0.35
-    elseif sound.Name:find("taunt") then
-        soundclone.Volume = 0.5
-    end
+    soundclone.Volume = 0.7
     soundclone:Play()
     soundclone.Ended:Connect(
         function()
