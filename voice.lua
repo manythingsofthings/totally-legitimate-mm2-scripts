@@ -43,21 +43,18 @@ local function doingHact()
 end
 
 local function playSound(sound)
-    local soundclone = Instance.new("Sound")
-    soundclone.Parent = character.Head
-    soundclone.Name = sound.Name
-    soundclone.SoundId = sound.Value
-    if not sound.Name:find("taunt") then
-        soundclone.Volume = 0.35
-    elseif sound.Name:find("taunt") then
-        soundclone.Volume = 0.5
+    if char.Head:FindFirstChild("Voice") then
+		char.Head.Voice:Destroy()
     end
-    soundclone:Play()
-    soundclone.Ended:Connect(
-        function()
-            game:GetService("Debris"):AddItem(soundclone)
-        end
-    )
+	
+	local soundclone = Instance.new("Sound")
+	soundclone.Parent = char.Head
+	soundclone.Name = "Voice"
+	soundclone.SoundId = sound.Value
+	soundclone.Volume = 0.7
+	soundclone:Play()
+	soundclone.Ended:Wait()
+	soundclone:Destroy()
 end
 
 local function GetRandom(Instance)
