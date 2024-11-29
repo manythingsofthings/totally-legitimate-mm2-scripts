@@ -6,7 +6,7 @@ local ME = ReplicatedStorage.Events.ME
 
 --// Cache
 local RPS = game.ReplicatedStorage
-local Voice = RPS.Voices:FindFirstChild(_G.useVoice)
+local Voice = RPS.Voices:FindFirstChild(_G.dodconfig.useVoice)
 local player = game.Players.LocalPlayer
 local character = player.Character
 local pgui = player.PlayerGui
