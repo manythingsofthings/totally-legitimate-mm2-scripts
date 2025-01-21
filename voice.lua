@@ -18,27 +18,36 @@ local interf = pgui.Interface
 local bt = interf.Battle
 local main = bt.Main
 
-local function Notify(Text, Sound, Color, Fonts) --text function, sounds: tp, buzz, Gong, HeatDepleted
-    local Text1 = string.upper(Text)
-    if Sound then
-        pgui.Notify:Fire(Text, Sound)
-    else
-        pgui.Notify:Fire(Text)
-    end
-    if Color then
-        for i, v in pairs(pgui.NotifyUI.Awards:GetChildren()) do
-            if v.Name == "XPEx" and v.Text == Text1 then
-                v.Text = Text
-                v.TextColor3 = Color
-                if Fonts then
-                    v.Font = Enum.Font[Fonts]
-                end
-            end
-        end
-    end
-end
+local function sendNotification(text, color, stroke, sound)
+	local upper = string.upper(text)
+	-- Fire the notification event
+	if sound then
+		pgui["Notify"]:Fire(text, sound)
+	else
+		pgui["Notify"]:Fire(text)
+	end
+	-- If color is not provided, default to white
+	if not color then
+		color = Color3.new(1, 1, 1)
+	end
 
-local function doingHact()
+	if not stroke then
+		stroke = Color3.new(0, 0, 0)
+	end
+
+	-- Listen for when a new child is added to NotifyUI.Awards
+	for i, v in ipairs(pgui.NotifyUI.Awards:GetChildren()) do
+		if v.Name == "XPEx" and v.Text == upper then
+			v.Text = text
+			v.TextColor3 = color
+			v.TextStrokeColor3 = stroke
+			v.Text = text
+			if v.Text == "Feel the HEAT!!" then
+				v.Font = Enum.Font.PermanentMarker
+			end
+		end
+	end
+endlocal function doingHact()
     return (character:FindFirstChild("Heated") and true or false)
 end
 
@@ -197,4 +206,4 @@ status.CurrentMove.Changed:Connect(
         end
     end
 )
-Notify("VOICE LOADED", nil, Color3.fromRGB(255, 0, 0), "Arial")
+sendNotification("VOICE LOADED", Color3.new(1,0,0), Color3.new(0,0,0), "HeatDepleted")
