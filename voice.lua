@@ -47,7 +47,9 @@ local function sendNotification(text, color, stroke, sound)
 			end
 		end
 	end
-endlocal function doingHact()
+end
+	
+local function doingHact()
     return (character:FindFirstChild("Heated") and true or false)
 end
 
