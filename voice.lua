@@ -214,7 +214,7 @@ RPS.Moves.Taunt.Sound.Value = "FakeLaugh"
 RPS.Moves.DragonTaunt.Sound.Value = "FakeLaugh"
 RPS.Moves.RushTaunt.Sound.Value = "FakeLaugh"
 if Voice:FindFirstChild("Scream") then
-	RPS.Moves.BeastTaunt = "FakeLaugh"
+	RPS.Moves.BeastTaunt.Sound.Value = "FakeLaugh"
 end
 
 status.Taunting.Changed:Connect(
