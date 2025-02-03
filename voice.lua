@@ -18,6 +18,11 @@ local interf = pgui.Interface
 local bt = interf.Battle
 local main = bt.Main
 
+local heatMode = Instance.new("BoolValue")
+local rage = Instance.new("BoolValue")
+heatMode.Value = (status.Heat.Value >= 75) and true or false
+rage.Value = status:FindFirstChild("ANGRY") and true or false
+
 local function sendNotification(text, color, stroke, sound)
 	local upper = string.upper(text)
 	-- Fire the notification event
@@ -85,6 +90,41 @@ plr.ChildAdded:Connect(
         end
     end
 )
+
+status.ChildAdded:Connect(function(c)
+	if c.Name == "ANGRY" then
+		rage.Value = true
+	end
+end)
+
+status.ChildRemoved:Connect(function(c)
+	if c.Name == "ANGRY" then
+		rage.Value = false
+	end
+end)
+
+status.Heat:GetPropertyChangedSignal("Value"):Connect(function()
+	if status.Heat.Value >= 75 then
+		heatMode.Value = true
+	else
+		heatMode.Value = false
+	end
+end)
+
+heatMode:GetPropertyChangedSignal("Value"):Connect(function()
+	if heatMode.Value then
+		receivedsound = GetRandom(Voice.HeatMode)
+		playSound(receivedsound)
+	end
+end)
+
+rage:GetPropertyChangedSignal("Value"):Connect(function()
+	if rage.Value then
+		receivedsound = GetRandom(Voice.Rage)
+		playSound(receivedsound)
+	end
+end)
+
 local HeatActionCD = false
 char.ChildAdded:Connect(
     function(child)
@@ -173,11 +213,20 @@ fakeTauntSound.Volume.Value = 0
 RPS.Moves.Taunt.Sound.Value = "FakeLaugh"
 RPS.Moves.DragonTaunt.Sound.Value = "FakeLaugh"
 RPS.Moves.RushTaunt.Sound.Value = "FakeLaugh"
+if Voice:FindFirstChild("Scream") then
+	RPS.Moves.BeastTaunt = "FakeLaugh"
+end
+
 status.Taunting.Changed:Connect(
     function()
-        if status.Taunting.Value == true and status.CurrentMove.Value.Name ~= "BeastTaunt" then
-            receivedsound = GetRandom(Voice.Taunt)
-            playSound(receivedsound)
+        if status.Taunting.Value == true then
+        	if status.CurrentMove.Value.Name ~= "BeastTaunt" then
+	            receivedsound = GetRandom(Voice.Taunt)
+	            playSound(receivedsound)
+			else
+				receivedsound = GetRandom(Voice.Scream)
+	            playSound(receivedsound)
+			end
         end
     end
 )
