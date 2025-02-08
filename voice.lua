@@ -94,6 +94,9 @@ plr.ChildAdded:Connect(
 status.ChildAdded:Connect(function(c)
 	if c.Name == "ANGRY" then
 		rage.Value = true
+	elseif c.Name == "Grabbed" then
+		receivedsound = GetRandom(Voice.Grabbed)
+		playSound(receivedsound)
 	end
 end)
 
