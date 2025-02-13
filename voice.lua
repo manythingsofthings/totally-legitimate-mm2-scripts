@@ -134,15 +134,21 @@ char.ChildAdded:Connect(
         if child.Name == "Heated" and child:WaitForChild("Heating", 0.5).Value ~= character then
             local isThrowing = child:WaitForChild("Throwing", 0.5)
             if not isThrowing then
-                if main.HeatMove.TextLabel.Text ~= "Ultimate Essence " then
+                if (main.HeatMove.TextLabel.Text ~= "Ultimate Essence " and main.HeatMove.TextLabel.Text ~= "Ultimate Essence '88" and main.HeatMove.TextLabel.Text ~= "Essence of the Dragon God") then
                     receivedsound = GetRandom(Voice.HeatAction)
+                else
+					if _G.dodconfig.useVoice == "Kiryu" then
+	                	receivedsound = Voice.Taunt['taunt2 (2)']
+					else
+						receivedsound = GetRandom(Voice.Taunt)
+					end
+				end
+			end
 		    if main.HeatMove.TextLabel.Text ~= "Essence of Terror" then						
 		    	repeat task.wait() until not doingHact()
 		    end
-                    playSound(receivedsound)
-                    print(receivedsound)
-                end
-            end
+            playSound(receivedsound)
+            print(receivedsound)
         end
         local HitCD = false
         if child.Name == "Hitstunned" and not character:FindFirstChild("Ragdolled") then
