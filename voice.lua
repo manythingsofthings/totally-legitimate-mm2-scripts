@@ -144,7 +144,7 @@ char.ChildAdded:Connect(
 					end
 				end
 			end
-		    if main.HeatMove.TextLabel.Text ~= "Essence of Terror" then						
+		    if main.HeatMove.TextLabel.Text ~= "Essence of Terror" and not (main.HeatMove.TextLabel.Text ~= "Ultimate Essence " or main.HeatMove.TextLabel.Text ~= "Ultimate Essence '88" or main.HeatMove.TextLabel.Text ~= "Essence of the Dragon God") then						
 		    	repeat task.wait() until not doingHact()
 		    end
             playSound(receivedsound)
